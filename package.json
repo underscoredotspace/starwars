@@ -1,0 +1,19 @@
+{
+  "name": "starwars",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/underscoredotspace/starwars.git"
+  },
+  "author": "Colin Tindle <ampersand@underscore.space> (https://underscore.space)",
+  "license": "CC-BY-NC-4.0",
+  "bugs": {
+    "url": "https://github.com/underscoredotspace/starwars/issues"
+  },
+  "homepage": "https://github.com/underscoredotspace/starwars#readme"
+}
