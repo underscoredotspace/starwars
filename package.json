@@ -1,10 +1,9 @@
 {
   "name": "starwars",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Star Wars",
   "scripts": {
-    "test": "jasmine"
+    "start": "jasmine && serve -S public"
   },
   "repository": {
     "type": "git",
@@ -15,5 +14,9 @@
   "bugs": {
     "url": "https://github.com/underscoredotspace/starwars/issues"
   },
-  "homepage": "https://github.com/underscoredotspace/starwars#readme"
+  "homepage": "https://github.com/underscoredotspace/starwars#readme",
+  "devDependencies": {
+    "serve": "*",
+    "jasmine": "^2.6.0"
+  }
 }
