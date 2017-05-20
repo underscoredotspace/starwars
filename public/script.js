@@ -1,66 +1,67 @@
 (function() {
-  window.angular.module('dotSpace.starWars', ['ngCleanToast'])
+  angular.module('dotSpace.starWars', ['ngCleanToast'])
 })();
 
 (function() {
-  window.angular.module('dotSpace.starWars').controller('planetsController', planetsController)
+  angular.module('dotSpace.starWars').controller('planetsController', planetsController)
   
-  planetsController.$inject = ['swapiService']
+  planetsController.$inject = ['swapiService', '$scope']
   
-  function planetsController (swapiService) {
+  function planetsController (swapiService, scope) {
     const vm = this
-    swapiService.getResource('planets').then(planets => {
-      vm.res = planets.results
+    swapiService.getResource('planets', {page:2})
+    .then(planets => {
+      scope.$apply(function() {
+        vm.res_planets = planets
+      })
     })
   }
 })();
 
 (function() {
-  window.angular.module('dotSpace.starWars').factory('swapiService', swapiService)
+  angular.module('dotSpace.starWars').factory('swapiService', swapiService)
   
   swapiService.$inject = ['$http', 'toasts']
   
   function swapiService($http, toasts) {
-    const swapi = '//swapi.co/api/'
     const resources = [
       'planets'
     ]
     
     return {
-      getResource: getResource
+      getResource: getResource,
+      _createURL: createURL
     }
     
-    function getResource(resource, id, page) {
-      // TODO validate id with RegEx
-      // TODO create var for id if supplied
-      // TODO validate page with RegEx
-      // TODO create var for page if supplied
-      const url = swapi + resource + '/'
-      return $http.get(url)
-        .then(res => res.data)
-        .catch(err => toasts.create(toasts.type('error'), err.status, url + ' ' + err.statusText, toasts.sticky))
+    function getResource(resource, options) {
+      return createURL(resource, options)
+      .then(url => $http.get(url))
+      .then(res => res.data)
+      .catch(err => toasts.create(toasts.type('error'), err.status, url + ' ' + err.statusText, toasts.sticky))
     }
     
-    function createURL(resource, id, page) {
+    function createURL(resource, options) {
+      const swapi =  '//swapi.co/api/'
       let url = ''
+      
       return new Promise((resolve, reject)=> {
-        if (window.angular.isDefined(resource) && resources.some(arrVal => resource === arrVal)) {
+        if (angular.isDefined(resource) && resources.some(arrVal => resource === arrVal)) {
           url = resource + '/'
         } else {
-          return reject()
+          return reject(`Invalid resource: "${resource}"`)
         }
         
-        const idRegExp = new RegExp('/[0-9]{1,2}/')
-        
-        if (window.angular.isDefined(id) && id.test(idRegExp)) {
-          url += id + '/'
+        if (options) {
+          if (angular.isDefined(options.id) && (Number(options.id) != NaN)) {
+            url = url + options.id
+          } else {
+            if (angular.isDefined(options.page) && (Number(options.page) != NaN)) {
+              url += '?page=' + options.page
+            }
+          }
         }
         
-        const pageRegExp = new RegExp('/[0-9]{1,1}/')
-        
-        if (window.angular.isDefined(page) && id.test(pageRegExp)) {
-          url += '?page=' + page
-        }
+        resolve(swapi + url)
       })
     }
   }
