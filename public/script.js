@@ -5,15 +5,18 @@
 (function() {
   angular.module('dotSpace.starWars').controller('planetsController', planetsController)
   
-  planetsController.$inject = ['swapiService', '$scope']
+  planetsController.$inject = ['swapiService', '$scope', 'toasts']
   
-  function planetsController (swapiService, scope) {
+  function planetsController (swapiService, scope, toasts) {
     const vm = this
-    swapiService.getResource('planets', {page:2})
+    swapiService.get('plantes', {page:2})
     .then(planets => {
       scope.$apply(function() {
         vm.res_planets = planets
       })
+    })
+    .catch(err => {
+      scope.$apply(function(){toasts.create(toasts.type('error'), '', err, toasts.sticky)})
     })
   }
 })();
@@ -21,27 +24,32 @@
 (function() {
   angular.module('dotSpace.starWars').factory('swapiService', swapiService)
   
-  swapiService.$inject = ['$http', 'toasts']
+  swapiService.$inject = ['$http', '$q']
   
-  function swapiService($http, toasts) {
+  function swapiService($http, $q) {
+    const swapi =  '//swapi.co/api/'
     const resources = [
       'planets'
     ]
     
     return {
-      getResource: getResource,
+      get: get,
       _createURL: createURL
     }
     
-    function getResource(resource, options) {
+    function get(resource, options) {
       return createURL(resource, options)
       .then(url => $http.get(url))
       .then(res => res.data)
-      .catch(err => toasts.create(toasts.type('error'), err.status, url + ' ' + err.statusText, toasts.sticky))
+      .catch(getFailed)
+    }
+
+    function getFailed(error, resource, options) {
+      console.error(error)
+      return $q.reject(error)
     }
     
     function createURL(resource, options) {
-      const swapi =  '//swapi.co/api/'
       let url = ''
       
       return new Promise((resolve, reject)=> {
