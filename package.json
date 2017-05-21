@@ -1,10 +1,11 @@
 {
   "name": "starwars",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Star Wars",
   "scripts": {
-    "test": "jasmine"
+    "start": "nws public:bower_components",
+    "test": "karma start",
+    "install": "bower install"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,15 @@
   "bugs": {
     "url": "https://github.com/underscoredotspace/starwars/issues"
   },
-  "homepage": "https://github.com/underscoredotspace/starwars#readme"
+  "homepage": "https://github.com/underscoredotspace/starwars#readme",
+  "devDependencies": {
+    "jasmine-core": "^2.6.2",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.1.1",
+    "karma-coverage": "^1.1.1",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-safari-launcher": "^1.0.0",
+    "nws": "*"
+  }
 }
