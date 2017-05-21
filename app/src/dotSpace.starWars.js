@@ -1,24 +1,5 @@
 (function() {
-  angular.module('dotSpace.starWars', ['ngCleanToast'])
-})();
-
-(function() {
-  angular.module('dotSpace.starWars').controller('planetsController', planetsController)
-  
-  planetsController.$inject = ['swapiService', '$scope', 'toasts']
-  
-  function planetsController (swapiService, scope, toasts) {
-    const vm = this
-    swapiService.get('plantes', {page:2})
-    .then(planets => {
-      scope.$apply(function() {
-        vm.res_planets = planets
-      })
-    })
-    .catch(err => {
-      scope.$apply(function(){toasts.create(toasts.type('error'), '', err, toasts.sticky)})
-    })
-  }
+  angular.module('dotSpace.starWars', [])
 })();
 
 (function() {

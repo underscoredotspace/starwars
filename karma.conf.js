@@ -18,8 +18,8 @@ module.exports = function(config) {
       'bower_components/angularjs/angular.min.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/ng-cleantoast/dist/ng-cleantoast.min.js',
-      'public/*.js',
-      'spec/**/*.spec.js',
+      'app/src/*.js',
+      'app/test/*.spec.js',
     ],
 
 
@@ -31,7 +31,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'public/**/*.js': ['coverage']
+      'app/src/**/*.js': ['coverage']
     },
 
 

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Star Wars",
   "scripts": {
-    "start": "nws -p 3000 -d public:bower_components -o",
+    "start": "nws -p 3000 -d app/src:app/demo:bower_components -o",
     "test": "karma start",
     "install": "bower install"
   },
