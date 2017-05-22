@@ -4,7 +4,7 @@ This application provides an AngularJS interface for [SWAPI](https://swapi.co). 
 
 ## Installation
 
-Run `npm install`. This will install all dependencies including Bower. This is not required for general use, but will allow tests and a live demo to be run. See [Development](#Development). 
+Run `npm install`. This will install all dependencies including those on Bower. This is not required for general use, but will allow tests and a live demo to be run. See [Development](#development). 
 
 Inject to your Angular module thus:
 
@@ -22,22 +22,26 @@ Inject to your Angular module thus:
 
 - `resource` is the name of the SWAPI resource required - currently only 'planets' is available. 
 
-- `options` is an **optional** object. Acceptable properties are `page` and `id`, only one of which should be passed per request. If both are passed, only `id` is evluated. For more details, please see the [Examples](#Examples) below. 
+- `options` is an **optional** object. Acceptable properties are `page` and `id`, only one of which should be passed per request. If both are passed, only `id` is evaluated. For more details, please see the [Examples](#examples) below. 
 
 The full resource data is returned as per the [SWAPI documentation](http://swapi.co/documentation#planets). 
 
 ## Examples
 
-A live example can be run with `npm start`. This demonstrates a simple request for `planets` resource. 
+A live example can be run with `npm start`. This demonstrates a simple request for `planets` resource with paginatin using ngRoute. 
 
-### Pagination
+### Pagination (`options.page`)
 
 The SWAPI API supplies resouces in pages of 10 and supports simple pagination. This is provided in `swapiService.get()` via `options.page`. 
 
 ```javascript
 (function() {
   angular.module('testapp', ['dotSpace.starWars'])
-  .controller('testController', function() {
+  
+  .controller('testController', testController)
+  testController.$inject = ['swapiService']
+
+  function testController(swapiService) {
     const vm = this
 
     swapiService.get('planets', {page:2})
@@ -50,7 +54,9 @@ The SWAPI API supplies resouces in pages of 10 and supports simple pagination. T
 })();
 ```
 
+### Single resource (`options.id`)
 
+To retrieve a single resource
 
 ## Development
 

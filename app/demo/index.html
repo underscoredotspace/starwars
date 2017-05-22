@@ -3,24 +3,50 @@
     <title>Star Wars</title>
   </head>
   
-  <body data-ng-controller="swTableController as planets">
-    <div data-ng-repeat="planet in planets.data track by $index">
-      <div data-ng-bind="planet.name">Loading...</div>
-    </div>
-
+  <body>
+    <data-ng-view></data-ng-view>
+    
     <script src="/angular/angular.min.js"></script>
+    <script src="/angular-route/angular-route.min.js"></script>
     <script src="dotSpace.starWars.js"></script>
     <script>
       (function() {
-        angular.module('demoApp', ['dotSpace.starWars'])
-        
-        .controller('swTableController', swTableController)
-          swTableController.$inject = ['swapiService']
+        angular.module('demoApp', ['dotSpace.starWars', 'ngRoute'])
+
+        .config(router)
+          router.$inject = ['$routeProvider']
+
+          function router($routeProvider) {
+            $routeProvider
+            .when('/res/:resource', {
+              redirectTo: '/res/:resource/1'
+            })
+            .when('/res/:resource/:page', {
+              templateUrl: 'parts/resource-part.html',
+              controller: 'resourceController as resource'
+            })
+            .otherwise({redirectTo:'/res/planets'})
+          }
+      })();
+
+      (function() {
+
+        angular.module('demoApp')
+        .controller('resourceController', resourceController)
+          resourceController.$inject = ['swapiService', '$routeParams']
           
-          function swTableController (swapiService) {
+          function resourceController (swapiService, $routeParams) {
             const vm = this
-            swapiService.get('planets')
-            .then(planets => {vm.data = planets.results})
+            vm.resource = $routeParams.resource
+
+            if (angular.isDefined($routeParams.page)) {
+              vm.page = Number($routeParams.page)
+              vm.next = `/#!/res/${vm.resource}/${vm.page+1}`
+              vm.previous = `/#!/res/${vm.resource}/${vm.page-1}`
+            }
+
+            swapiService.get(vm.resource, {page:vm.page})
+            .then(resource => {vm.data = resource})
             .catch(alert)
           }
       })();

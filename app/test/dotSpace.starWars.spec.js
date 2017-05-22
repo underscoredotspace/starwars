@@ -110,6 +110,24 @@ describe('swapiService', function() {
       $rootScope.$apply()
     })
 
+    it("should make API request for /planets, even with empty option object", () => {
+      $httpBackend.expectGET('//swapi.co/api/planets/').respond([])
+
+      swapiService.get('planets', {})
+      .then($httpBackend.flush())
+      .catch(promiseCatch)
+      $rootScope.$apply()
+    })
+
+    it("should make API request for /planets and not fail just because it didn't get valid options", () => {
+      $httpBackend.expectGET('//swapi.co/api/planets/').respond([])
+      
+      swapiService.get('planets', 'failure is not an option!')
+      .then($httpBackend.flush())
+      .catch(promiseCatch)
+      $rootScope.$apply()
+    })
+
     it('should make API request for planets and handle failure', function() {
       $httpBackend.expectGET('//swapi.co/api/planets/').respond(500, '')
       

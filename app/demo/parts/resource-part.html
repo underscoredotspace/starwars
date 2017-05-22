@@ -1,0 +1,7 @@
+<div>
+  <a data-ng-if="resource.data.previous" data-ng-href="{{resource.previous}}">Previous</a>
+  <div data-ng-repeat="item in resource.data.results track by $index">
+    <div data-ng-bind="item.name"></div>
+  </div>
+  <a data-ng-if="resource.data.next" data-ng-href="{{resource.next}}">Next</a>
+</div>
