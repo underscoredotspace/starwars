@@ -18,16 +18,16 @@
   },
   "homepage": "https://github.com/underscoredotspace/starwars#readme",
   "dependencies": {
-    "bower": "^1.8.0"
   },
   "devDependencies": {
-    "jasmine-core": "^2.6.2",
+    "bower": "^1.8.0",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.1.1",
-    "karma-coverage": "^1.1.1",
     "karma-firefox-launcher": "^1.0.1",
-    "karma-jasmine": "^1.1.0",
     "karma-safari-launcher": "^1.0.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-coverage": "^1.1.1",
+    "jasmine-core": "^2.6.2",
     "nws": "*"
   }
 }

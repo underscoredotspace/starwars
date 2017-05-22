@@ -1,10 +1,10 @@
-# starWars
+# starWars 🌑
 
-This application provides an AngularJS interface for [SWAPI](https://swapi.co). A modern browser is required - Chrome 60, Firefox 53 and Safari 10.1 have been tested, but any current browser should work (IE11 is not current 😐). 
+This application provides an AngularJS interface for [SWAPI](https://swapi.co). A modern browser is required - Chrome 60, Firefox 53 and Safari 10.1 have been tested, but any current browser should work (for the avoidance of doubt, IE11 is not current 😐). 
 
 ## Installation
 
-Run `npm install`. This will install all dependencies including those on Bower. This is not required for general use, but will allow tests and a live demo to be run. See [Development](#development). 
+Run `npm install` to install all dependencies including those on Bower. This is not required for general use, but will allow tests and a live demo to be run. See [Development](#development). 
 
 Inject to your Angular module thus:
 
@@ -56,7 +56,13 @@ The SWAPI API supplies resouces in pages of 10 and supports simple pagination. T
 
 ### Single resource (`options.id`)
 
-To retrieve a single resource
+Retrieve a single resource in exactly the same way as above, but pass `{id:resourceid}` instead: 
+
+```javascript
+  // ...
+  swapiService.get('planets', {id:3})
+  // ...
+```
 
 ## Development
 
@@ -66,10 +72,13 @@ To retrieve a single resource
 - Code follows [John Papa's Angular 1.x style guide](https://github.com/johnpapa/angular-styleguide/tree/master/a1)
 - ES6 syntax is utilised wherever appropriate (arrow functions, let/const, template strings)
 - Semicolons are NOT used at the end of lines except for IIFE where they are required by the JS engine
+- No external dependencies should be added for this very simple service
 - It is not required that you are a Star Wars fan - live long and prosper if you wish 🖖
 
 ### Testing
 
-Due to ES6 being used extensively, a modern browser is required to run. Unfortunately this also rules out PhantomJS (without utilising Babel or some ES6 shim), so real browsers are required at the moment. 
+Due to ES6 being used extensively, a modern browser is required to run. Unfortunately this also rules out PhantomJS (without utilising Babel or similar) as it does not support ES6, so real browsers are required at the moment. 
 
-`npm test` will open Chrome, Firefox and Safari and execute all tests with Karma and Jasmine. `Ctrl+C` ends the test runner. Amend `karma.conf.js` to run with different/fewer browsers but remember to revert before any pull request. 
+`npm test` will open Chrome, Firefox and Safari and execute all tests (matching `app/tests/*.spec.js`) with Karma and Jasmine. Amend `karma.conf.js` to run with different/fewer browsers but remember to revert before any pull request. Safari seems to be somewhat glitchy when run from Karma, I found it's better to have it open with no open pages before running tests. 
+
+Coverage reports in html and lcov will be generated on successful test run in `coverage/`. There's no reason for less than 🌟 100% 🌟 coverage due to the application structure (thanks JP)
