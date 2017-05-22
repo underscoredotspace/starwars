@@ -8,6 +8,8 @@
   swapiService.$inject = ['$http', '$q']
   
   function swapiService($http, $q) {
+
+    // These consts are here to make adding of search and schema retrieval easier
     const swapi =  '//swapi.co/api/'
     const resources = [
       'planets'
@@ -15,20 +17,21 @@
     
     return {
       get: get,
-      _createURL: createURL
+      _createURL: createURL // Returned only for testing
     }
     
     function get(resource, options) {
       return createURL(resource, options)
       .then(getResource)
-      .catch(getFailed)
+      .catch(getFailed) // Called on rejection from createURL() or $http.get() in getResource()
     }
 
     function getResource(url) {
       return $http.get(url)
-      .then(res => res.data)
+      .then(res => res.data) // If no error, return only data part of response
     }
 
+    // Log errors to console, but also return through Promise chain
     function getFailed(error) {
       console.error(error)
       return $q.reject(error)
@@ -46,7 +49,7 @@
       if (options) {
         if (angular.isDefined(options.id) && (Number(options.id) != NaN)) {
           url = url + options.id
-        } else {
+        } else { // If options.id is specified a single item is requested, so no need for pages
           if (angular.isDefined(options.page) && (Number(options.page) != NaN)) {
             url += `?page=${options.page}`
           }

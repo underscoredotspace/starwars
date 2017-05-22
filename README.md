@@ -28,7 +28,7 @@ The full resource data is returned as per the [SWAPI documentation](http://swapi
 
 ## Examples
 
-A live example can be run with `npm start`. This demonstrates a simple request for `planets` resource with paginatin using ngRoute. 
+A live example can be run with `npm start`. This demonstrates a simple request for `planets` resource with pagination using ngRoute. 
 
 ### Pagination (`options.page`)
 
@@ -44,7 +44,7 @@ The SWAPI API supplies resouces in pages of 10 and supports simple pagination. T
   function testController(swapiService) {
     const vm = this
 
-    swapiService.get('planets', {page:2})
+    swapiService.get('planets', {page:2}) // Requests page 2 of planets resource
     .then(planets => {
       vm.data = planets.results
       // ...
@@ -60,7 +60,7 @@ Retrieve a single resource in exactly the same way as above, but pass `{id:resou
 
 ```javascript
   // ...
-  swapiService.get('planets', {id:3})
+  swapiService.get('planets', {id:3}) // Requests the planet with ID of 3
   // ...
 ```
 

@@ -1,9 +1,6 @@
 describe('swapiService', function() {
   let swapiService
 
-  function promiseCatch(err) {
-    expect(err).toBeUndefined()
-  }
 
   beforeEach(function() {
     module('dotSpace.starWars')
@@ -20,7 +17,7 @@ describe('swapiService', function() {
       .then(url => {
         expect(url).toBe('//swapi.co/api/planets/')
       })
-      .catch(promiseCatch)
+      .catch(err => expect(err).toBeUndefined())
 
       $rootScope.$apply();
     })
@@ -30,7 +27,7 @@ describe('swapiService', function() {
       .then(url => {
         expect(url).toBe('//swapi.co/api/planets/')
       })
-      .catch(promiseCatch)
+      .catch(err => expect(err).toBeUndefined())
       $rootScope.$apply();
     })
 
@@ -39,7 +36,7 @@ describe('swapiService', function() {
       .then(url => {
         expect(url).toBe('//swapi.co/api/planets/')
       })
-      .catch(promiseCatch)
+      .catch(err => expect(err).toBeUndefined())
       $rootScope.$apply();
     })
 
@@ -48,7 +45,7 @@ describe('swapiService', function() {
       .then(url => {
         expect(url).toBe('//swapi.co/api/planets/2')
       })
-      .catch(promiseCatch)
+      .catch(err => expect(err).toBeUndefined())
       $rootScope.$apply();
     })
 
@@ -57,7 +54,16 @@ describe('swapiService', function() {
       .then(url => {
         expect(url).toBe('//swapi.co/api/planets/?page=3')
       })
-      .catch(promiseCatch)
+      .catch(err => expect(err).toBeUndefined())
+      $rootScope.$apply();
+    })
+
+    it("should return the url for planet 2 and ignore page", () => {
+      swapiService._createURL('planets', {id:2,page:3})
+      .then(url => {
+        expect(url).toBe('//swapi.co/api/planets/2')
+      })
+      .catch(err => expect(err).toBeUndefined())
       $rootScope.$apply();
     })
 
@@ -88,7 +94,7 @@ describe('swapiService', function() {
       
       swapiService.get('planets')
       .then($httpBackend.flush())
-      .catch(promiseCatch)
+      .catch(err => expect(err).toBeUndefined())
       $rootScope.$apply()
     })
 
@@ -97,7 +103,7 @@ describe('swapiService', function() {
       
       swapiService.get('planets', {id:2})
       .then($httpBackend.flush())
-      .catch(promiseCatch)
+      .catch(err => expect(err).toBeUndefined())
       $rootScope.$apply()
     })
 
@@ -106,7 +112,16 @@ describe('swapiService', function() {
       
       swapiService.get('planets', {page:3})
       .then($httpBackend.flush())
-      .catch(promiseCatch)
+      .catch(err => expect(err).toBeUndefined())
+      $rootScope.$apply()
+    })
+
+    it('should make API request for planets/2 and ignore page', function() {
+      $httpBackend.expectGET('//swapi.co/api/planets/2').respond([])
+      
+      swapiService.get('planets', {id:2,page:3})
+      .then($httpBackend.flush())
+      .catch(err => expect(err).toBeUndefined())
       $rootScope.$apply()
     })
 
@@ -115,7 +130,7 @@ describe('swapiService', function() {
 
       swapiService.get('planets', {})
       .then($httpBackend.flush())
-      .catch(promiseCatch)
+      .catch(err => expect(err).toBeUndefined())
       $rootScope.$apply()
     })
 
@@ -124,11 +139,11 @@ describe('swapiService', function() {
       
       swapiService.get('planets', 'failure is not an option!')
       .then($httpBackend.flush())
-      .catch(promiseCatch)
+      .catch(err => expect(err).toBeUndefined())
       $rootScope.$apply()
     })
 
-    it('should make API request for planets and handle failure', function() {
+    it('should make API request for planets and handle server-side failure', function() {
       $httpBackend.expectGET('//swapi.co/api/planets/').respond(500, '')
       
       swapiService.get('planets')
