@@ -49,9 +49,23 @@
       if (options) {
         if (angular.isDefined(options.id) && (Number(options.id) != NaN)) {
           url = url + options.id
-        } else { // If options.id is specified a single item is requested, so no need for pages
+        } else { // If options.id is specified a single item is requested, so no need for pages or search
+          let subOptions = []
+          const searchRegEx = /^[\d\w\s]{1,15}$/i
+          
+          if (angular.isDefined(options.searchString)) {
+            if (searchRegEx.test(options.searchString)) {
+              subOptions.push(`search=${options.searchString}`)
+            } else {
+              return $q.reject(`Bad search string: "${options.searchString}"`)
+            }
+          }
           if (angular.isDefined(options.page) && (Number(options.page) != NaN)) {
-            url += `?page=${options.page}`
+            subOptions.push(`page=${options.page}`)
+          }
+
+          if (subOptions.length != 0) {
+            url = url + '?' + subOptions.join('&')
           }
         }
       }

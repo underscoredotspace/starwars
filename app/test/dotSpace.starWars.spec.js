@@ -77,9 +77,45 @@ describe('swapiService', function() {
       })
       $rootScope.$apply();
     })
+
+    it("should return url for planets/?search=tatooine", () => {
+      swapiService._createURL('planets', {searchString:'tatooine'})
+      .then(url => {
+        expect(url).toBe('//swapi.co/api/planets/?search=tatooine')
+      })
+      .catch(err => expect(err).toBeUndefined())
+      $rootScope.$apply();
+    })
+
+    it("should return url for planets/?search=e&page=2", () => {
+      swapiService._createURL('planets', {searchString:'e', page:2})
+      .then(url => {
+        expect(url).toBe('//swapi.co/api/planets/?search=e&page=2')
+      })
+      .catch(err => expect(err).toBeUndefined())
+      $rootScope.$apply();
+    })
+
+    it("should return error for search because string has non-alphanumeric chars", () => {
+      swapiService._createURL('planets', {searchString:'fudg£'})
+      .then(url => {
+        expect(url).toBeUndefined()
+      })
+      .catch(err => expect(err).toBe('Bad search string: "fudg£"'))
+      $rootScope.$apply();
+    })
+
+    it("should return error for search because string is too long", () => {
+      swapiService._createURL('planets', {searchString:'15 characters is a lot'})
+      .then(url => {
+        expect(url).toBeUndefined()
+      })
+      .catch(err => expect(err).toBe('Bad search string: "15 characters is a lot"'))
+      $rootScope.$apply();
+    })
   })
 
-  describe('swapiService.get function', function() {
+  describe('swapiService.get function', () => {
     beforeEach(inject(function($injector) {
       $httpBackend = $injector.get('$httpBackend')
     }))

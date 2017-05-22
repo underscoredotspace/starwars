@@ -25,6 +25,13 @@
               templateUrl: 'parts/resource-part.html',
               controller: 'resourceController as resource'
             })
+            .when('/res/:resource/search/:searchString', {
+              redirectTo: '/res/:resource/search/:searchString/1'
+            })
+            .when('/res/:resource/search/:searchString/:page', {
+              templateUrl: 'parts/resource-part.html',
+              controller: 'resourceController as resource'
+            })
             .otherwise({redirectTo:'/res/planets'})
           }
       })();
@@ -38,16 +45,24 @@
           function resourceController (swapiService, $routeParams) {
             const vm = this
             vm.resource = $routeParams.resource
+            let options = {}
+            let searchPath = ''
+
+            if (angular.isDefined($routeParams.searchString)) {
+              options = angular.extend({}, options, {searchString:$routeParams.searchString})
+              searchPath = `search/${$routeParams.searchString}/`
+            }
 
             if (angular.isDefined($routeParams.page)) {
               vm.page = Number($routeParams.page)
-              vm.next = `/#!/res/${vm.resource}/${vm.page+1}`
-              vm.previous = `/#!/res/${vm.resource}/${vm.page-1}`
+              options = angular.extend({}, options, {page:vm.page})
+              vm.next = `/#!/res/${vm.resource}/${searchPath}${vm.page+1}`
+              vm.previous = `/#!/res/${vm.resource}/${searchPath}${vm.page-1}`
             }
 
-            swapiService.get(vm.resource, {page:vm.page})
+            swapiService.get(vm.resource, options)
             .then(resource => {vm.data = resource})
-            .catch(alert)
+            .catch(err => alert(err.statusText))
           }
       })();
     </script>
