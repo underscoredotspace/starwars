@@ -20,38 +20,39 @@
     
     function get(resource, options) {
       return createURL(resource, options)
-      .then(url => $http.get(url))
-      .then(res => res.data)
+      .then(getResource)
       .catch(getFailed)
     }
 
-    function getFailed(error, resource, options) {
+    function getResource(url) {
+      return $http.get(url)
+      .then(res => res.data)
+    }
+
+    function getFailed(error) {
       console.error(error)
       return $q.reject(error)
     }
     
     function createURL(resource, options) {
       let url = ''
+    
+      if (angular.isDefined(resource) && resources.some(arrVal => resource === arrVal)) {
+        url = `${resource}/`
+      } else {
+        return $q.reject(`Invalid resource: "${resource}"`)
+      }
       
-      return new Promise((resolve, reject)=> {
-        if (angular.isDefined(resource) && resources.some(arrVal => resource === arrVal)) {
-          url = resource + '/'
+      if (options) {
+        if (angular.isDefined(options.id) && (Number(options.id) != NaN)) {
+          url = url + options.id
         } else {
-          return reject(`Invalid resource: "${resource}"`)
-        }
-        
-        if (options) {
-          if (angular.isDefined(options.id) && (Number(options.id) != NaN)) {
-            url = url + options.id
-          } else {
-            if (angular.isDefined(options.page) && (Number(options.page) != NaN)) {
-              url += '?page=' + options.page
-            }
+          if (angular.isDefined(options.page) && (Number(options.page) != NaN)) {
+            url += `?page=${options.page}`
           }
         }
-        
-        resolve(swapi + url)
-      })
+      }
+      return $q.resolve(swapi + url)
     }
   }
 })();

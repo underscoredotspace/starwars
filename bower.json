@@ -10,7 +10,6 @@
   "private": true,
   "dependencies": {
     "angular": "^1.6.4",
-    "angular-mocks": "^1.6.4",
-    "ng-cleantoast": "^1.0.0"
+    "angular-mocks": "^1.6.4"
   }
 }

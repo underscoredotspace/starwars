@@ -1,4 +1,4 @@
-describe('swapiService._createURL function', function() {
+describe('swapiService', function() {
   let swapiService
 
   function promiseCatch(err) {
@@ -10,63 +10,119 @@ describe('swapiService._createURL function', function() {
 
     inject(function($injector) {
       swapiService = $injector.get('swapiService')
+      $rootScope = $injector.get('$rootScope')
     })
   })
 
-  it("should return the url for planets", (done) => {
-    swapiService._createURL('planets')
-    .then(url => {
-      expect(url).toBe('//swapi.co/api/planets/')
-      done()
+  describe('swapiService._createURL function', function() {
+    it("should return the url for planets", () => {
+      swapiService._createURL('planets')
+      .then(url => {
+        expect(url).toBe('//swapi.co/api/planets/')
+      })
+      .catch(promiseCatch)
+
+      $rootScope.$apply();
     })
-    .catch(promiseCatch)
+
+    it("should return the url for planets, even with empty option object", () => {
+      swapiService._createURL('planets', {})
+      .then(url => {
+        expect(url).toBe('//swapi.co/api/planets/')
+      })
+      .catch(promiseCatch)
+      $rootScope.$apply();
+    })
+
+      it("should return the url for planets and not fail just because it didn't get valid options", () => {
+      swapiService._createURL('planets', 'failure is not an option!')
+      .then(url => {
+        expect(url).toBe('//swapi.co/api/planets/')
+      })
+      .catch(promiseCatch)
+      $rootScope.$apply();
+    })
+
+    it("should return the url for planet 2", () => {
+      swapiService._createURL('planets', {id:2})
+      .then(url => {
+        expect(url).toBe('//swapi.co/api/planets/2')
+      })
+      .catch(promiseCatch)
+      $rootScope.$apply();
+    })
+
+    it("should return the url for planets page 3", () => {
+      swapiService._createURL('planets', {page:3})
+      .then(url => {
+        expect(url).toBe('//swapi.co/api/planets/?page=3')
+      })
+      .catch(promiseCatch)
+      $rootScope.$apply();
+    })
+
+    it("should return an error because it got an invalid resource", () => {
+      swapiService._createURL('plants')
+      .then(url => {
+        expect(url).toBeUndefined()
+      })
+      .catch(err => {
+        expect(err).toBe('Invalid resource: "plants"')
+      })
+      $rootScope.$apply();
+    })
   })
 
-  it("should return the url for planets, even with empty option object", (done) => {
-    swapiService._createURL('planets', {})
-    .then(url => {
-      expect(url).toBe('//swapi.co/api/planets/')
-      done()
+  describe('swapiService.get function', function() {
+    beforeEach(inject(function($injector) {
+      $httpBackend = $injector.get('$httpBackend')
+    }))
+
+    afterEach(function() {
+      $httpBackend.verifyNoOutstandingExpectation()
+      $httpBackend.verifyNoOutstandingRequest()
     })
-    .catch(promiseCatch)
+
+    it('should make API request for planets', function() {
+      $httpBackend.expectGET('//swapi.co/api/planets/').respond([])
+      
+      swapiService.get('planets')
+      .then($httpBackend.flush())
+      .catch(promiseCatch)
+      $rootScope.$apply()
+    })
+
+    it('should make API request for planets/2', function() {
+      $httpBackend.expectGET('//swapi.co/api/planets/2').respond([])
+      
+      swapiService.get('planets', {id:2})
+      .then($httpBackend.flush())
+      .catch(promiseCatch)
+      $rootScope.$apply()
+    })
+
+    it('should make API request for page 3 of planets', function() {
+      $httpBackend.expectGET('//swapi.co/api/planets/?page=3').respond([])
+      
+      swapiService.get('planets', {page:3})
+      .then($httpBackend.flush())
+      .catch(promiseCatch)
+      $rootScope.$apply()
+    })
+
+    it('should make API request for planets and handle failure', function() {
+      $httpBackend.expectGET('//swapi.co/api/planets/').respond(500, '')
+      
+      swapiService.get('planets')
+      .then(url => {
+        expect(url).toBeUndefined()
+      })
+      .catch(error => {
+        expect(error.status).toBe(500)
+      })
+      $httpBackend.flush()
+      $rootScope.$apply()
+    })
   })
 
-    it("should return the url for planets and not fail just because it didn't get valid options", (done) => {
-    swapiService._createURL('planets', 'failure is not an option!')
-    .then(url => {
-      expect(url).toBe('//swapi.co/api/planets/')
-      done()
-    })
-    .catch(promiseCatch)
-  })
-
-  it("should return the url for planet 2", (done) => {
-    swapiService._createURL('planets', {id:2})
-    .then(url => {
-      expect(url).toBe('//swapi.co/api/planets/2')
-      done()
-    })
-    .catch(promiseCatch)
-  })
-
-  it("should return the url for planets page 3", (done) => {
-    swapiService._createURL('planets', {page:3})
-    .then(url => {
-      expect(url).toBe('//swapi.co/api/planets/?page=3')
-      done()
-    })
-    .catch(promiseCatch)
-  })
-
-  it("should return an error because it got an invalid resource", (done) => {
-    swapiService._createURL('plants')
-    .then(url => {
-      expect(url).toBeUndefined()
-      done()
-    })
-    .catch(err => {
-      expect(err).toBe('Invalid resource: "plants"')
-      done()
-    })
-  })
 })
