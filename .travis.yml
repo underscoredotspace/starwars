@@ -1,3 +1,4 @@
+dist: trusty
 language: node_js
 node_js:
 - "node"
@@ -7,10 +8,8 @@ addons:
     sources:
       - google-chrome
     packages:
-      - libfontconfig1
-      - libstdc++6
-      - lsb-base
       - google-chrome-stable
+      - google-chrome-beta
 
 before_script:
   - export DISPLAY=:99.0
