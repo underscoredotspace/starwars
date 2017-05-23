@@ -66,6 +66,16 @@ Retrieve a single resource in exactly the same way as above, but pass `{id:resou
   // ...
 ```
 
+### Search (`options.searchString`)
+
+Search for a planet with an alphanumeric string up to 15 characters, including spaces. This can be used along with [pagination](#pagination): `{searchString:'e', page:1}`. 
+
+```javascript
+  // ...
+  swapiService.get('planets', {searchString:'tatooine'}) // Searches planets resource for 'tatooine'
+  // ...
+```
+
 ## Development
 
 ### Style
