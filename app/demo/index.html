@@ -1,10 +1,20 @@
 <html data-ng-app="demoApp">
   <head>
     <title>Star Wars</title>
+    <style>
+      .searching {
+        margin-bottom: 20px;
+      }
+    </style>
   </head>
   
   <body>
-    <data-ng-view></data-ng-view>
+    <div searching class="searching">
+      <input data-ng-model="search" placeholder="Search">
+      <button data-ng-click="doSearch(search)">Search</button>
+      <a href="/#!/res/planets/1" data-ng-click="search=''">Clear</a><br>
+    </div>
+    <data-ng-view>Loading...</data-ng-view>
     
     <script src="/angular/angular.min.js"></script>
     <script src="/angular-route/angular-route.min.js"></script>
@@ -35,9 +45,38 @@
             .otherwise({redirectTo:'/res/planets'})
           }
       })();
+      
+      (function() {
+        angular.module('demoApp')
+        .directive('searching', searching)
+        
+        searching.$inject = ['$location', '$routeParams']
+        
+        function searching($location, $routeParams) {
+          let directive = {
+            link: link,
+            restrict: 'A'
+          }
+          return directive
+
+          function link(scope, element, attrs) {
+            scope.doSearch = doSearch
+            
+            function doSearch(searchString) {
+              const searchRegEx = /^[\d\w\s]{1,15}$/i
+              if (angular.isDefined($routeParams.resource) && searchRegEx.test(searchString)) {
+                const res = $routeParams.resource
+                const searchURL = `/res/${res}/search/${searchString}/1`
+                $location.path(searchURL)
+              }
+            }
+          }  
+        }
+        
+        
+      })();
 
       (function() {
-
         angular.module('demoApp')
         .controller('resourceController', resourceController)
           resourceController.$inject = ['swapiService', '$routeParams']
@@ -62,7 +101,13 @@
 
             swapiService.get(vm.resource, options)
             .then(resource => {vm.data = resource})
-            .catch(err => alert(err.statusText))
+            .catch(err => {
+              if (angular.isDefined(err.status)) { // ugh
+                alert('Error connecting to API')
+              } else {
+                alert(err)
+              }
+            })
           }
       })();
     </script>

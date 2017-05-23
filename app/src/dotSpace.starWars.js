@@ -8,8 +8,6 @@
   swapiService.$inject = ['$http', '$q']
   
   function swapiService($http, $q) {
-
-    // These consts are here to make adding of search and schema retrieval easier
     const swapi =  '//swapi.co/api/'
     const resources = [
       'planets'

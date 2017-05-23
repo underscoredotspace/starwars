@@ -161,6 +161,51 @@ describe('swapiService', function() {
       $rootScope.$apply()
     })
 
+    it("should search planets for tatooine", () => {
+      $httpBackend.expectGET('//swapi.co/api/planets/?search=tatooine').respond([])
+      
+      swapiService.get('planets', {searchString:'tatooine'})
+      .then($httpBackend.flush())
+      .catch(err => expect(err).toBeUndefined())
+      $rootScope.$apply()
+    })
+
+    it("should search planets for e and return page 2", () => {
+      $httpBackend.expectGET('//swapi.co/api/planets/?search=e&page=2').respond([])
+      
+      swapiService.get('planets', {searchString:'e', page:2})
+      .then($httpBackend.flush())
+      .catch(err => expect(err).toBeUndefined())
+      $rootScope.$apply()
+    })
+
+    it("should search planets for tatooine", () => {
+      $httpBackend.expectGET('//swapi.co/api/planets/?search=tatooine').respond([])
+      
+      swapiService.get('planets', {searchString:'tatooine'})
+      .then($httpBackend.flush())
+      .catch(err => expect(err).toBeUndefined())
+      $rootScope.$apply()
+    })
+
+    it("should fail search request because it has bad characters", () => {
+      swapiService.get('planets', {searchString:'Fudg£'})
+      .then(url => {
+        expect(url).toBeUndefined()
+      })
+      .catch(err => expect(err).toBe('Bad search string: "Fudg£"'))
+      $rootScope.$apply();
+    })
+
+    it("should fail search request because it's to long", () => {
+      swapiService.get('planets', {searchString:'15 characters is a lot'})
+      .then(url => {
+        expect(url).toBeUndefined()
+      })
+      .catch(err => expect(err).toBe('Bad search string: "15 characters is a lot"'))
+      $rootScope.$apply();
+    })
+
     it("should make API request for /planets, even with empty option object", () => {
       $httpBackend.expectGET('//swapi.co/api/planets/').respond([])
 
