@@ -1,5 +1,7 @@
 # starWars 🌑
 
+[![Build Status](https://travis-ci.org/underscoredotspace/starwars.svg?branch=master)](https://travis-ci.org/underscoredotspace/starwars) [![Coverage](https://coveralls.io/repos/github/underscoredotspace/starwars/badge.svg?branch=master)](https://coveralls.io/github/underscoredotspace/starwars?branch=master)
+
 This application provides an AngularJS interface for [SWAPI](https://swapi.co). A modern browser is required - Chrome 60, Firefox 53 and Safari 10.1 have been tested, but any current browser should work (for the avoidance of doubt, IE11 is not current 😐). 
 
 ## Installation
@@ -28,7 +30,7 @@ The full resource data is returned as per the [SWAPI documentation](http://swapi
 
 ## Examples
 
-A live example can be run with `npm start`. This demonstrates a simple request for `planets` resource with pagination using ngRoute. 
+A live example can be run with `npm start`. This demonstrates a simple request for `planets` resource with pagination using ngRoute. The demo is not a suggested implementation, you can do better 😂. 
 
 ### Pagination (`options.page`)
 
@@ -79,6 +81,8 @@ Retrieve a single resource in exactly the same way as above, but pass `{id:resou
 
 Due to ES6 being used extensively, a modern browser is required to run. Unfortunately this also rules out PhantomJS (without utilising Babel or similar) as it does not support ES6, so real browsers are required at the moment. 
 
-`npm test` will open Chrome, Firefox and Safari and execute all tests (matching `app/tests/*.spec.js`) with Karma and Jasmine. Amend `karma.conf.js` to run with different/fewer browsers but remember to revert before any pull request. Safari seems to be somewhat glitchy when run from Karma, I found it's better to have it open with no open pages before running tests. 
+`npm test` will open Chrome Headless which requires Chrome 59 or later to be installed. All tests matching `app/tests/*.spec.js` are run with Karma and Jasmine. 
+
+`npm run browser-test` runs the same tests, but opens Safari, Chrome and Firefox. 
 
 Coverage reports in html and lcov will be generated on successful test run in `coverage/`. There's no reason for less than 🌟 100% 🌟 coverage due to the application structure (thanks JP)

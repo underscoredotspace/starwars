@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Star Wars",
   "scripts": {
+    "install": "bower install",
     "start": "nws -p 3000 -d app/src:app/demo:bower_components -o",
     "test": "karma start",
-    "install": "bower install"
+    "travis": "karma start .travis/karma.conf.js",
+    "browser-test": "karma start --browsers Chrome,Safari,Firefox"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,7 @@
     "karma-safari-launcher": "^1.0.0",
     "karma-jasmine": "^1.1.0",
     "karma-coverage": "^1.1.1",
+    "karma-coveralls": "^1.1.2",
     "jasmine-core": "^2.6.2",
     "nws": "*"
   }
