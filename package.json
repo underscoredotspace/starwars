@@ -6,7 +6,7 @@
     "install": "bower install",
     "start": "nws -p 3000 -d app/src:app/demo:bower_components -o",
     "test": "karma start",
-    "travis": "karma start .travis/karma.conf.js && npm run min-test",
+    "travis": "karma start karma-travis.conf.js && npm run min-test",
     "browser-test": "karma start --browsers Chrome,Safari,Firefox",
     "min-test": "grunt min && karma start karma-ugly.conf.js"
   },

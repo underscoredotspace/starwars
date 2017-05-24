@@ -24,13 +24,13 @@ Inject to your Angular module thus:
 
 - `resource` is the name of the SWAPI resource required - currently only 'planets' is available. 
 
-- `options` is an **optional** object. Acceptable properties are `page` and `id`, only one of which should be passed per request. If both are passed, only `id` is evaluated. For more details, please see the [Examples](#examples) below. 
+- `options` is an **optional** object. Acceptable properties are `page`, `id` and `searchString`, only one of `page` or `searchString` should be passed per request. If both are passed, only `id` is evaluated. Similarly, if `id` and `page` are passed together, `page` is ignored. For more details, please see the [Examples](#examples) below. 
 
 The full resource data is returned as per the [SWAPI documentation](https://swapi.co/documentation#planets). 
 
 ## Examples
 
-A live example can be run with `npm start`. This demonstrates a simple request for `planets` resource with pagination using ngRoute. The demo is not a suggested implementation, you can do better 😂. 
+A live example can be run with `npm start`. This demonstrates a simple request for `planets` resource with pagination and search using ngRoute. The demo is **not** a suggested implementation, you can do better 😂. 
 
 ### Pagination 
 `options.page`
