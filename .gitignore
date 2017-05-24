@@ -29,3 +29,6 @@ node_modules/
 
 # You probably use macOS too
 .DS_Store
+
+# Not committing minified code
+dist

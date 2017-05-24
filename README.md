@@ -26,7 +26,7 @@ Inject to your Angular module thus:
 
 - `options` is an **optional** object. Acceptable properties are `page` and `id`, only one of which should be passed per request. If both are passed, only `id` is evaluated. For more details, please see the [Examples](#examples) below. 
 
-The full resource data is returned as per the [SWAPI documentation](http://swapi.co/documentation#planets). 
+The full resource data is returned as per the [SWAPI documentation](https://swapi.co/documentation#planets). 
 
 ## Examples
 
@@ -101,4 +101,8 @@ Due to ES6 being used extensively, a modern browser is required to run. Unfortun
 
 `npm run browser-test` runs the same tests, but opens Safari, Chrome and Firefox. 
 
+`npm run min-test` minifies the code with grunt + uglify-es then runs the tests on the results. 
+
 Coverage reports in html and lcov will be generated upon successful test run in `coverage/`. There's no reason for less than 🌟 100% 🌟 coverage due to the application structure (thanks JP)
+
+Any commit triggers `npm run travis` in [Travis CI](https://travis-ci.org/underscoredotspace/starwars), which effectively runs `npm test` (the results of coverage check from this are passed to [Coveralls](https://coveralls.io/github/underscoredotspace/starwars?branch=master)) then `npm run min-test`. 
