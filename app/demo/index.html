@@ -72,8 +72,6 @@
             }
           }  
         }
-        
-        
       })();
 
       (function() {
@@ -103,9 +101,9 @@
             .then(resource => {vm.data = resource})
             .catch(err => {
               if (angular.isDefined(err.status)) { // ugh
-                alert('Error connecting to API')
+                window.alert('Error connecting to API')
               } else {
-                alert(err)
+                window.alert(err)
               }
             })
           }
