@@ -35,7 +35,7 @@
       return $q.reject(error)
     }
     
-    function createURL(resource, {resId, page, searchString}) {
+    function createURL(resource, {id = 0, page = 0, searchString = ''} = {}) {
       let url = ''
     
       if (angular.isDefined(resource) && resources.some(arrVal => resource === arrVal)) {
@@ -43,27 +43,28 @@
       } else {
         return $q.reject(`Invalid resource: "${resource}"`)
       }
-        if (angular.isDefined(resId) && Number.isInteger(resId)) {
-          url = url + resId
-        } else { // If options.id is specified a single item is requested, so no need for pages or search
-          let subOptions = []
-          const searchRegEx = /^[\d\w\s]{1,15}$/i
-          
-          if (angular.isDefined(searchString)) {
-            if (searchRegEx.test(searchString)) {
-              subOptions.push(`search=${searchString}`)
-            } else {
-              return $q.reject(`Bad search string: "${searchString}"`)
-            }
-          }
-          if (angular.isDefined(page) && Number.isInteger(page)) {
-            subOptions.push(`page=${page}`)
-          }
 
-          if (subOptions.length !== 0) {
-            url = url + '?' + subOptions.join('&')
+      if (id !== 0 && Number.isInteger(id)) {
+        url = url + id
+      } else { // If options.id is specified a single item is requested, so no need for pages or search
+        let subOptions = []
+        const searchRegEx = /^[\d\w\s]{1,15}$/i
+        
+        if (searchString !== '') {
+          if (searchRegEx.test(searchString)) {
+            subOptions.push(`search=${searchString}`)
+          } else {
+            return $q.reject(`Bad search string: "${searchString}"`)
           }
         }
+        if (page !== 0 && Number.isInteger(page)) {
+          subOptions.push(`page=${page}`)
+        }
+
+        if (subOptions.length !== 0) {
+          url = url + '?' + subOptions.join('&')
+        }
+      }
       return $q.resolve(swapi + url)
     }
   }

@@ -292,5 +292,4 @@ describe('swapiService', () => {
       $rootScope.$apply()
     })
   })
-
 })
