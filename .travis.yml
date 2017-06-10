@@ -13,7 +13,7 @@ addons:
     sources:
       - google-chrome
     packages:
-      - google-chrome # v59+ is required for chrome-headless
+      - google-chrome-stable # v59+ is required for chrome-headless
 
 before_script:
   - export CHROME_BIN="google-chrome-beta"
