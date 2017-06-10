@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "Star Wars",
   "scripts": {
-    "install": "bower install",
-    "start": "nws -p 3000 -d app/src:app/demo:bower_components -o",
+    "start": "nws -p 3000 -d app/src:app/demo:dist:node_modules/angular:node_modules/angular-route -o",
     "test": "karma start",
-    "travis": "karma start karma-travis.conf.js && npm run min-test",
+    "travis": "karma start karma-travis.conf.js && yarn run min-test",
     "browser-test": "karma start --browsers Chrome,Safari,Firefox",
     "min-test": "grunt min && karma start karma-ugly.conf.js"
   },
@@ -20,9 +19,12 @@
     "url": "https://github.com/underscoredotspace/starwars/issues"
   },
   "homepage": "https://github.com/underscoredotspace/starwars#readme",
-  "dependencies": {},
+  "dependencies": {
+    "angular": "^1.6.4",
+    "angular-mocks": "^1.6.4",
+    "angular-route": "^1.6.4"
+  },
   "devDependencies": {
-    "bower": "^1.8.0",
     "grunt": "^1.0.1",
     "grunt-contrib-uglify": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
     "jasmine-core": "^2.6.2",
