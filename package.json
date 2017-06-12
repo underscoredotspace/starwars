@@ -4,10 +4,10 @@
   "description": "Star Wars",
   "scripts": {
     "start": "nws -p 3000 -d app/src:app/demo:dist:node_modules/angular:node_modules/angular-route -o",
-    "test": "karma start",
-    "travis": "karma start karma-travis.conf.js && yarn run min-test",
+    "test": "karma start karma/local.conf.js",
+    "travis": "karma start karma/travis.conf.js && yarn min-test",
     "browser-test": "karma start --browsers Chrome,Safari,Firefox",
-    "min-test": "grunt min && karma start karma-ugly.conf.js"
+    "min-test": "grunt min && karma start karma/min.conf.js"
   },
   "repository": {
     "type": "git",

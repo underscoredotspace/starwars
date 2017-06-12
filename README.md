@@ -6,7 +6,7 @@ This application provides an AngularJS interface for [SWAPI](https://swapi.co). 
 
 ## Installation
 
-Run `npm install` to install all dependencies including those on Bower. This is not required for general use, but will allow tests and a live demo to be run. See [Development](#development). 
+Run `yarn` to install all dependencies. This is not required for general use, but will allow tests and a live demo to be run. See [Development](#development). 
 
 Inject to your Angular module thus:
 
@@ -30,7 +30,7 @@ The full resource data is returned as per the [SWAPI documentation](https://swap
 
 ## Examples
 
-A live example can be run with `npm start`. This demonstrates a simple request for `planets` resource with pagination and search using ngRoute. The demo is **not** a suggested implementation, you can do better 😂. 
+A live example can be run with `yarn start`. This demonstrates a simple request for `planets` resource with pagination and search using ngRoute. The demo is **not** a suggested implementation, you can do better 😂. 
 
 ### Pagination 
 `options.page`
@@ -97,12 +97,12 @@ This can be used along with [pagination](#pagination): `{searchString:'e', page:
 
 Due to ES6 being used extensively, a modern browser is required to run. Unfortunately this also rules out PhantomJS (without utilising Babel or similar) as it does not support ES6, so real browsers are required at the moment. 
 
-`npm test` will open Chrome Headless which requires Chrome 59 or later to be installed. Currently Chrome Stable is v58, Beta is v59, and Dev/Canary are v60. All tests matching `app/tests/*.spec.js` are run continuously with Karma and Jasmine, requiring `Ctrl+C` to quit Karma. 
+`yarn test` will open Chrome Headless which requires Chrome 59 or later to be installed. Currently Chrome Stable is v58, Beta is v59, and Dev/Canary are v60. All tests matching `app/tests/*.spec.js` are run continuously with Karma and Jasmine, requiring `Ctrl+C` to quit Karma. 
 
-`npm run browser-test` runs the same tests, but opens Safari, Chrome and Firefox. 
+`yarn browser-test` runs the same tests, but opens Safari, Chrome and Firefox. 
 
-`npm run min-test` minifies the code with grunt + uglify-es then runs the tests on the results. 
+`yarn min-test` minifies the code with grunt + uglify-es then runs the tests on the results. 
 
 Coverage reports in html and lcov will be generated upon successful test run in `coverage/`. There's no reason for less than 🌟 100% 🌟 coverage due to the application structure (thanks JP)
 
-Any commit triggers `npm run travis` in [Travis CI](https://travis-ci.org/underscoredotspace/starwars), which effectively runs `npm test` (the results of coverage check from this are passed to [Coveralls](https://coveralls.io/github/underscoredotspace/starwars?branch=master)) then `npm run min-test`. 
+Any commit triggers `yarn travis` in [Travis CI](https://travis-ci.org/underscoredotspace/starwars), which effectively runs `yarn test` (the results of coverage check from this are passed to [Coveralls](https://coveralls.io/github/underscoredotspace/starwars?branch=master)) then `yarn min-test`. 
